@@ -58,5 +58,32 @@ describe('Work with basic elements', () => {
             .should('have.length', 2)
     })
 
+    it.only('Checkbox', () => {
+        cy.get('#formComidaPizza')
+            .click()
+            .should('be.checked')
+    
+        cy.get('[name=formComidaFavorita]').click({multiple: true})
+        cy.get('#formComidaPizza').should('not.be.checked')
+        cy.get('#formComidaVegetariana').should('be.checked')
+    })
 
+    it.only('Combo', () => {
+        cy.get('[data-test=dataEscolaridade]')
+            .select('2o grau completo')
+            .should('have.value', '2graucomp') // tem que verificar e usar o value da tag option no html
+        
+            cy.get('[data-test=dataEscolaridade]')
+            .select('1o grau completo')
+            .should('have.value', '1graucomp')
+
+            //TODO validar as opções do combo
+    })
+
+    it.only('Multiple Combo', () => {
+        cy.get('[data-testid=dataEsportes]')
+            .select(['natacao', 'Corrida', 'nada']) // tem que verificar e usar o value da tag option no html
+    
+        //TODO validar opções elecionadas do combo múltiplo
+    })
 })

@@ -58,7 +58,7 @@ describe('Work with basic elements', () => {
             .should('have.length', 2)
     })
 
-    it.only('Checkbox', () => {
+    it('Checkbox', () => {
         cy.get('#formComidaPizza')
             .click()
             .should('be.checked')
@@ -68,7 +68,7 @@ describe('Work with basic elements', () => {
         cy.get('#formComidaVegetariana').should('be.checked')
     })
 
-    it.only('Combo', () => {
+    it('Combo', () => {
         cy.get('[data-test=dataEscolaridade]')
             .select('2o grau completo')
             .should('have.value', '2graucomp') // tem que verificar e usar o value da tag option no html
@@ -80,7 +80,7 @@ describe('Work with basic elements', () => {
             //TODO validar as opções do combo
     })
 
-    it.only('Multiple Combo', () => {
+    it('Multiple Combo', () => {
         cy.get('[data-testid=dataEsportes]')
             .select(['natacao', 'Corrida', 'nada']) // tem que verificar e usar o value da tag option no html
     

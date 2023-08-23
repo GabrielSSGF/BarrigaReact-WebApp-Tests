@@ -83,4 +83,34 @@ describe('Wait...', () => {
             .should('have.value', '111')
     })
 
+    it.only('Should vs Then', () => {
+        cy.get('#buttonListDOM').click()
+        cy.get('#lista li span').should($elementoHTML => { // should executa como se fosse um laço for
+            // console.log($elementoHTML) // console escreve varias vezes
+            expect($elementoHTML).to.have.length(1)
+        })
+        cy.get('#lista li span').then($elementoHTML => { // realiza as ações apenas quando o caso é verdadeiro
+            // console.log($elementoHTML) // console escreve apenas uma vez
+            expect($elementoHTML).to.have.length(1)
+        })
+
+        cy.get('#buttonListDOM').should($elementoHTML => { // realiza as ações apenas quando o caso é verdadeiro
+            // console.log($elementoHTML) // console escreve apenas uma vez
+            expect($elementoHTML).to.have.length(1)
+            return 2 // should ignora o retorno
+        }).and('have.id', 'buttonListDOM')
+
+        /*
+        cy.get('#buttonListDOM').then($elementoHTML => { // realiza as ações apenas quando o caso é verdadeiro
+            // console.log($elementoHTML) // console escreve apenas uma vez
+            expect($elementoHTML).to.have.length(1)
+            return 2 // then pode ter seu retorno alterado, por isso resulta em erro
+        }).and('have.id', 'buttonListDOM') */
+        
+
+        // sempre que precisar fazer uma nova busca dentro teste, sempre faça com o then
+        // o should resulta em laço infinito
+    
+    })
+
 })

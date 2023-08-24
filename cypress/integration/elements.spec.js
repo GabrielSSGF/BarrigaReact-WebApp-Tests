@@ -68,22 +68,45 @@ describe('Work with basic elements', () => {
         cy.get('#formComidaVegetariana').should('be.checked')
     })
 
-    it('Combo', () => {
+    it.only('Combo', () => {
         cy.get('[data-test=dataEscolaridade]')
             .select('2o grau completo')
             .should('have.value', '2graucomp') // tem que verificar e usar o value da tag option no html
         
-            cy.get('[data-test=dataEscolaridade]')
+        cy.get('[data-test=dataEscolaridade]')
             .select('1o grau completo')
             .should('have.value', '1graucomp')
 
-            //TODO validar as opções do combo
+        //TODO validar as opções do combo
+
+        cy.get('[data-test=dataEscolaridade] option')
+            .should('have.length', 8)
+        cy.get('[data-test=dataEscolaridade] option')
+            .then($array => {
+                const values = []
+                $array.each(function() {
+                    values.push(this.innerHTML)
+                })
+                expect(values).to.include.members(["Superior", "Mestrado"])
+            })
+
     })
 
-    it('Multiple Combo', () => {
+    it.only('Multiple Combo', () => {
         cy.get('[data-testid=dataEsportes]')
             .select(['natacao', 'Corrida', 'nada']) // tem que verificar e usar o value da tag option no html
     
         //TODO validar opções elecionadas do combo múltiplo
+
+        // cy.get('[data-testid=dataEsportes]').should('have.value', ['natacao', 'Corrida', 'nada'])
+        cy.get('[data-testid=dataEsportes]').then($elemento => {
+            expect($elemento.val()).to.be.deep.equal(['natacao', 'Corrida', 'nada'])
+            expect($elemento.val()).to.have.length(3)
+        })
+
+        cy.get('[data-testid=dataEsportes]')
+            .invoke('val')
+            .should('eql', ['natacao', 'Corrida', 'nada'])
+
     })
 })

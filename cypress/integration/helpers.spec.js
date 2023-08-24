@@ -47,7 +47,17 @@ describe('Helpers', () => {
         cy.wrap(object2).its('endereco.rua').should('contains', 'bobos')
 
         cy.title().its('length').should('be.equal', 20)
+    })
 
-
+    it.only('Invoke', () => {
+        const getValue = () => 1;
+        const soma = (a, b) => a + b;
+        cy.wrap({fn: getValue}).invoke('fn').should('be.equal', 1);
+        cy.wrap({fn: soma}).invoke('fn', 2, 5).should('be.equal', 7);
+        
+        cy.get('#formNome').invoke('val', 'Texto via invoke')
+        cy.window().invoke('alert', 'Da pra ver?')
+        cy.get('#resultado')
+            .invoke('html', '<input type="button", value="hached!"/>') // me permite imbutir um codigo HTML na div
     })
 })

@@ -19,8 +19,10 @@ describe('Cypress basics', () => {
             .should('be.equal', 'Campo de Treinamento')
             .and('contain', 'Campo');
         
+        let syncTitle
             
         //TODO escrever log no console
+
         cy.title().then(title => {
             console.log(title)
         })
@@ -28,7 +30,27 @@ describe('Cypress basics', () => {
         cy.title().should(title => {
             console.log(title)
         })
-        //TODP escrever o title em um campo de texto
+        
+        //TODO escrever o title em um campo de texto
+
+        //cy.title().then(title => {
+        //    console.log(title)
+        //    cy.get('#formNome').type(title)
+        //})
+        
+        cy.title().then(title => {
+            console.log(title)
+            cy.get('#formNome').type(title)
+            syncTitle = title
+        })
+
+        cy.get('[data-cy=dataSobrenome]').then($elemento => {
+            $elemento.val(syncTitle)
+        })
+
+        cy.get('#elementosForm\\:sugestoes').then($elemento => {
+            cy.wrap($elemento).type(syncTitle)
+        })
 
         // cy.title().should('contain', 'Campo').debug() // debug do should
         // cy.title().debug().should('contain', 'Campo') // debug do title
@@ -37,10 +59,8 @@ describe('Cypress basics', () => {
 
     it('Should find and interact with an element', () => {
         cy.visit('https://www.wcaquino.me/cypress/componentes.html')
-
         cy.get('#buttonSimple')
             .click()
             .should('have.value', 'Obrigado!')
-
     })
 })

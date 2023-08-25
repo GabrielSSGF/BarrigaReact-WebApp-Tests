@@ -39,7 +39,7 @@ describe('Alerts', () => {
 
         cy.get('#confirm').click()
     })
-
+    
     it.only('Deny', () => {
         
         cy.on('window:confirm', mensagem => {
@@ -52,5 +52,41 @@ describe('Alerts', () => {
         })
 
         cy.get('#confirm').click()
+    })
+    
+    it.only('Prompt', () => {
+        cy.window().then(janela => {
+            cy.stub(janela, 'prompt').returns('42')
+        })
+        
+        cy.on('window:confirm', mensagem => {
+            expect(mensagem).to.be.equal('Era 42?')
+        })
+        
+        cy.on('window:alert', mensagem => {
+            expect(mensagem).to.be.equal(':D')
+        })
+        
+        cy.get('#prompt').click()
+    })
+
+    it.only('Validando mensagem', () => {
+        const stub = cy.stub().as('alerta')
+        cy.on('window:alert', stub)
+        cy.get('#formCadastrar').click()
+            .then(() => expect(stub.getCall(0)).to.be.calledWith('Nome eh obrigatorio'))
+        
+            cy.get('#formNome').type('Gabriel')
+        cy.get('#formCadastrar').click()
+            .then(() => expect(stub.getCall(1)).to.be.calledWith('Sobrenome eh obrigatorio')) 
+        
+        cy.get('[data-cy=dataSobrenome').type('Gabriel')
+        cy.get('#formCadastrar').click()
+            .then(() => expect(stub.getCall(2)).to.be.calledWith('Sexo eh obrigatorio')) 
+        
+        cy.get('#formSexoMasc').click()
+        cy.get('#formCadastrar').click()
+
+        cy.get('#resultado > :nth-child(1)').should('contain', 'Cadastrado!')
     })
 })

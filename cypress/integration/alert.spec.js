@@ -80,7 +80,7 @@ describe('Alerts', () => {
         cy.get('#formCadastrar').click()
             .then(() => expect(stub.getCall(1)).to.be.calledWith('Sobrenome eh obrigatorio')) 
         
-        cy.get('[data-cy=dataSobrenome').type('Gabriel')
+        cy.get('[data-cy=dataSobrenome').type('Soares')
         cy.get('#formCadastrar').click()
             .then(() => expect(stub.getCall(2)).to.be.calledWith('Sexo eh obrigatorio')) 
         

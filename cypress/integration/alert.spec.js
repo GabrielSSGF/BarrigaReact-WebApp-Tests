@@ -9,16 +9,16 @@ describe('Alerts', () => {
         cy.reload()
     })
 
-    it('Alert', () => {
-        cy.get('#alert').click()
-        cy.on('window:alert', mensagem => { // pega eventos que acontecem na tela
-            console.log(mensagem)
-            expect(mensagem).to.be.equal('Alert Simples')
-
-        }) 
+    it.only('Alert', () => {
+       // cy.get('#alert').click()
+       // cy.on('window:alert', mensagem => { // pega eventos que acontecem na tela
+       //     console.log(mensagem)
+       //     expect(mensagem).to.be.equal('Alert Simples')
+        //}) 
+        cy.clickAlert('#alert', 'Alert Simples')
     })
 
-    it.only('Alert with mock', () => {
+    it('Alert with mock', () => {
         const stub = cy.stub().as('alerta')
         cy.on('window:alert', stub)
         cy.get('#alert').click().then(() => {
@@ -26,7 +26,7 @@ describe('Alerts', () => {
         })
     })
 
-    it.only('Confirm', () => {
+    it('Confirm', () => {
         
         cy.on('window:confirm', mensagem => {
             console.log(mensagem)
@@ -40,7 +40,7 @@ describe('Alerts', () => {
         cy.get('#confirm').click()
     })
     
-    it.only('Deny', () => {
+    it('Deny', () => {
         
         cy.on('window:confirm', mensagem => {
             console.log(mensagem)
@@ -54,7 +54,7 @@ describe('Alerts', () => {
         cy.get('#confirm').click()
     })
     
-    it.only('Prompt', () => {
+    it('Prompt', () => {
         cy.window().then(janela => {
             cy.stub(janela, 'prompt').returns('42')
         })
@@ -70,7 +70,7 @@ describe('Alerts', () => {
         cy.get('#prompt').click()
     })
 
-    it.only('Validando mensagem', () => {
+    it('Validando mensagem', () => {
         const stub = cy.stub().as('alerta')
         cy.on('window:alert', stub)
         cy.get('#formCadastrar').click()

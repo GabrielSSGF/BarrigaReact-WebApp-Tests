@@ -12,6 +12,6 @@ describe('Fixture tests', () => {
             cy.get('#formEsportes').select(this.usuario.esportes)
         })
         cy.get('#formCadastrar').click()
-        cy.get('resultado > :nth-child(1)').should('contain', 'Cadastrado!')
+        cy.get('#resultado > :nth-child(1)').should('contain', 'Cadastrado!')
     })
 })

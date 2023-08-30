@@ -1,3 +1,3 @@
 # Project scope
 
-![Alt text](image-1.png)
+![Alt text](ProjectDiagram.png)

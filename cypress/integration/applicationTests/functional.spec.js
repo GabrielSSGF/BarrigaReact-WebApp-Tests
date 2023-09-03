@@ -1,14 +1,17 @@
 /// <reference types="cypress" />
 
+import loc from '../../support/locators'
+
 describe('Functional tests', () => {
     before(() => {
         cy.visit('https://barrigareact.wcaquino.me/')
 
         // Login
 
-        cy.get('.input-group > .form-control').type('accountEmail@mail.com')
-        cy.get(':nth-child(2) > .form-control').type('accountPassword123')
-        cy.get('.btn').click()
+        cy.get(loc.LOGIN.USER).type('accountEmail@mail.com')
+        cy.get(loc.LOGIN.PASSWORD).type('accountPassword123')
+        cy.get(loc.LOGIN.BTN_LOGIN).click()
+        cy.get(loc.MESSAGE).should('contain', 'Bem vindo')
     })
 
     // it('Account creation', () => {
@@ -31,11 +34,11 @@ describe('Functional tests', () => {
     // })
 
     it('Creating other accounts', () => {
-        cy.get('.dropdown-toggle').click()
-        cy.get('[href="/contas"]').click()
-        cy.get('.form-control').type('Account test')
-        cy.get('.btn').click()
-        cy.get('.toast-message').should('contain', 'Conta inserida com sucesso')
+        cy.get(loc.MENU.SETTINGS).click()
+        cy.get(loc.MENU.CONTAS).click()
+        cy.get(loc.CONTAS.NOME).type('Account test')
+        cy.get(loc.CONTAS.BTN_SALVAR).click()
+        cy.get(loc.MESSAGE).should('contain', 'Conta inserida com sucesso')
     })
 
     it('Should update an account', () => {
@@ -48,13 +51,13 @@ describe('Functional tests', () => {
                 const buttonSelector = `:nth-child(${accountIndex}) > :nth-child(2) > :nth-child(1) > .far`
                 
                 cy.get(buttonSelector).click()
-                cy.get('.form-control')
+                cy.get(loc.CONTAS.NOME)
                     .clear()
                     .type('Account modified')
-                cy.get('.btn').click()
+                cy.get(loc.CONTAS.BTN_SALVAR).click()
             });
     
-        cy.get('.toast-message').should('contain', 'Conta atualizada com sucesso');
+        cy.get(loc.MESSAGE).should('contain', 'Conta atualizada com sucesso');
     });
 })
 

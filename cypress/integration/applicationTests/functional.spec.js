@@ -57,5 +57,11 @@ describe('Functional tests', () => {
     
         cy.get(loc.MESSAGE).should('contain', 'Conta atualizada com sucesso');
     });
+
+    it('Should not create an existing account', () => {
+        cy.acessarMenuConta()
+        cy.inserirConta('Account modified')
+        cy.get(loc.MESSAGE).should('contain', 'code 400')
+    })
 })
 

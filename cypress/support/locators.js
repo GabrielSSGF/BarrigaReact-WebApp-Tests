@@ -6,7 +6,8 @@ const locators = {
     },
     MENU: {
         SETTINGS: '.dropdown-toggle',
-        CONTAS: '[href="/contas"]'
+        CONTAS: '[href="/contas"]',
+        RESET: '[href="/reset"]'
     },
     CONTAS: {
         NOME: '.form-control',

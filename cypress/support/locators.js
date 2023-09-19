@@ -7,11 +7,21 @@ const locators = {
     MENU: {
         SETTINGS: '.dropdown-toggle',
         CONTAS: '[href="/contas"]',
-        RESET: '[href="/reset"]'
+        RESET: '[href="/reset"]',
+        MOVIMENTACAO: ':nth-child(2) > .nav-link > .fas'
     },
     CONTAS: {
         NOME: '.form-control',
         BTN_SALVAR: '.btn'
+    },
+    MOVIMENTACAO:{
+        DESCRICAO: '#descricao',
+        VALOR: '.col-4 > .form-control',
+        INTERESSADO: '#envolvido',
+        BTN_SALVAR: '.btn-primary'
+    },
+    EXTRATO: {
+        LINHAS: '.list-group > li'
     },
     MESSAGE: '.toast-message'
 

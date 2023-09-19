@@ -1,16 +1,18 @@
 /// <reference types="cypress" />
 
 describe('Should test at a functional level', () => {
-    let token, email = 'accountEmail@mail.com', senha = 'accountPassword123'
+    // let token 
+    let email = 'accountEmail@mail.com', senha = 'accountPassword123'
     before(() => {
         cy.getToken(email, senha)
-            .then(tkn => {
-                token = tkn
-            })
-        cy.resetRest()
+            // .then(tkn => {
+            //     token = tkn
+            // })
+        
     })
 
     beforeEach(() => {
+        cy.resetRest()
     })
 
     function formatDateToTwoDigits(date) {
@@ -22,17 +24,15 @@ describe('Should test at a functional level', () => {
     }
 
     it('Should create an account', () => {
-        cy.getToken(email, senha)
-            .then(token => {
-                cy.request({
-                    url: '/contas',
-                    method: 'POST',
-                    headers: { Authorization: `JWT ${token}`},
-                    body: {
-                        nome: 'Conta via rest'
-                    }
-                }).as('response')
-            })
+        cy.request({
+            url: '/contas',
+            method: 'POST',
+            // headers: { Authorization: `JWT ${token}`},
+            body: {
+                nome: 'Conta via rest'
+            }
+        }).as('response')
+            
         cy.get('@response').then(response => {
             expect(response.status).to.be.equal(201)
             expect(response.body).to.have.property('id')
@@ -45,7 +45,7 @@ describe('Should test at a functional level', () => {
             cy.request({
                 url: `/contas/${contaId}`,
                 method: 'PUT',
-                headers: { Authorization: `JWT ${token}` },
+                // headers: { Authorization: `JWT ${token}` },
                 body: {
                     nome: 'conta alterada via rest'
                 }
@@ -54,14 +54,12 @@ describe('Should test at a functional level', () => {
 
         cy.get('@response').its('status').should('be.equal', 200)
     })
-         
-    
 
     it('Should not create an account with same name', () => {
         cy.request({
             url: '/contas',
             method: 'POST',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
             body: {
                 nome: 'Conta mesmo nome'
             },
@@ -83,7 +81,7 @@ describe('Should test at a functional level', () => {
             cy.request({
                 method: 'POST',
                 url: '/transacoes',
-                headers: { Authorization: `JWT ${token}`},
+                // headers: { Authorization: `JWT ${token}`},
                 body: {
                     conta_id: contaId,
                     data_pagamento: formattedDate,
@@ -104,7 +102,7 @@ describe('Should test at a functional level', () => {
         cy.request({
             url: '/saldo',
             method: 'GET',
-            headers: { Authorization: `JWT ${token}`}
+            // headers: { Authorization: `JWT ${token}`}
         }).then(response => {
             let saldoConta = null
             response.body.forEach(c => {
@@ -116,14 +114,14 @@ describe('Should test at a functional level', () => {
         cy.request({
             method: 'GET',
             url: '/transacoes',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
             qs: { descricao: 'Movimentacao 1, calculo saldo'}
         }).then(response => {
             console.log(response.body[0])
             cy.request({
                 url: `/transacoes/${response.body[0].id}`,
                 method: 'PUT',
-                headers: { Authorization: `JWT ${token}`},
+                // headers: { Authorization: `JWT ${token}`},
                 body: {
                     status: true,
                     data_transacao: Cypress.moment(response.body[0].data_transacao).format('DD/MM/YYYY'),
@@ -139,7 +137,7 @@ describe('Should test at a functional level', () => {
         cy.request({
             url: '/saldo',
             method: 'GET',
-            headers: { Authorization: `JWT ${token}`}
+            // headers: { Authorization: `JWT ${token}`}
         }).then(response => {
             let saldoConta = null
             response.body.forEach(c => {
@@ -154,13 +152,13 @@ describe('Should test at a functional level', () => {
         cy.request({
             method: 'GET',
             url: '/transacoes',
-            headers: { Authorization: `JWT ${token}`},
+            // headers: { Authorization: `JWT ${token}`},
             qs: { descricao: 'Movimentacao para exclusao'}
         }).then(response => {
             cy.request({
                 url: `/transacoes/${response.body[0].id}`,
                 method: 'DELETE',
-                headers: { Authorization: `JWT ${token}`},
+                // headers: { Authorization: `JWT ${token}`},
             }).its('status').should('be.equal', 204)
         })
 
